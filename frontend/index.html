@@ -1,0 +1,91 @@
+<html>
+
+<head>
+    <title>Main</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="diseñoregistro.css">.
+    <script src="JQuery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/8.0.12/jsrsasign-all-min.js"></script>
+</head>
+
+<body>
+
+    <form onsubmit="return false">
+        <div class="login-page">
+            <div class="form">
+                <form class="login-form">
+                    <input id="correo" type="text" placeholder="correo electronico" />
+                    <input id="pass" type="password" placeholder="contraseña" />
+                    <button onclick="dologin()">login2</button>
+                    <p class="message">No estas registrado? <a href="registro.html">Haste una cuenta!</a></p>
+                </form>
+            </div>
+        </div>
+    </form>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="/__/firebase/6.0.1/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#reserved-urls -->
+
+    <!-- Initialize Firebase -->
+    <script src="/__/firebase/init.js"></script>
+</body>
+<script>
+    function dologin() {
+        console.log($("#correo").val());
+        console.log($("#pass").val());
+        if (isemail()) {
+            if ($("#pass").val().length == 0) {
+                alert("Introduzca una contraseña!");
+            } else {
+
+                $.ajax({
+                    url: 'http://localhost:4000/api/login',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        "Email": '' + $("#correo").val() + '',
+                        "password": '' + $("#pass").val() + ''
+                    },
+                    success: function(data, textStatus, xhr) {
+                        var Jobj = data;
+                        if (Jobj["error"] != null) {
+                            alert("Ha ocurrido un error!2");
+                        } else {
+
+                            window.location.href = "/perfil.html" + "?usuario=" + Jobj[0].idUsuario;
+                        }
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        alert('Ha ocurrido un error!1' + Jobj["error"]);
+                    }
+                });
+
+            }
+        }
+    }
+
+    function isemail() {
+        var email = $('#correo').val();
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (re.test(email)) {
+            return true;
+        } else {
+            alert("Introduzca un correo valido");
+            return false;
+        }
+    }
+</script>
+<script>
+    $('.message a').click(function() {
+        $('form').animate({
+            height: "toggle",
+            opacity: "toggle"
+        }, "slow");
+    });
+</script>
+
+</html>

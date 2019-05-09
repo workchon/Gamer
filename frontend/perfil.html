@@ -1,0 +1,174 @@
+<html>
+
+<head>
+    <title>Main</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="JQuery.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script>
+        $().ready(
+            function() {
+                var urlParams = new URLSearchParams(window.location.search);
+                var id = urlParams.get('usuario');
+                console.log(id);
+                $.ajax({
+                    url: 'http://localhost:4000/api/Perfiles',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        "idUsuario": '' + id + '',
+                    },
+                    success: function(data, textStatus, xhr) {
+                        var Mobj = data;
+                        console.log(data);
+                        $("#impusuario").html(Mobj["Nombre"]);
+                        $("#impfoto").attr("src", Mobj["foto"]);
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        alert('Ha ocurrido un error!1' + Jobj["error"]);
+                    }
+                });
+            });
+    </script>
+
+    <!------ Include the above in your HEAD tag ---------->
+</head>
+
+<body>
+    <a href="index.html" style="color: #b3ffee">Logout</a>
+    <hr style="color: #ffffff; background-color: #a9f8b4; margin-top: 2px;">
+    <div class="container">
+        <div class="row">
+            <div class="profile-header-container">
+                <div class="profile-header-img">
+                    <div><img id="impfoto" class="img-circle" style="border-radius: 100%; width:30%; height: 25%;" /></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <h1 class="hes">Bienvenido
+        <h1 class="hes" id="impusuario"></h1>
+    </h1>
+    <br>
+    <div id="Mejorar">
+        <input class="form-control" placeholder="Ingrese Codigo de mejora de Cuenta" style="width: 300px">
+        <button type="button" class="btn btn-info" style="margin-left: 20%; margin-top: -2.5%">Actualizar</button>
+    </div>
+    <hr style="color: #ffffff; background-color: #a9f8b4">
+    <br>
+    <div class="card-columns">
+        <div class="card">
+            <img class="card-img-top" src="/Image/1.jpeg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Control custom en forma de volante</h5>
+                <p class="card-text">Un control en forma de volante para videjuegos de carreras.</p>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img-top" src="/Image/2.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Diadema gammer</h5>
+                <p class="card-text">Audifonos de tipo diadema con excelente calidad de sonido</p>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img-top" src="/Image/3.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Controles</h5>
+                <p class="card-text">Controles varios para diferentes consolas u ordenadores</p>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img-top" src="/Image/4.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Control para movil</h5>
+                <p class="card-text">Control bluethoot adaptable para dispositivos moviles</p>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img-top" src="/Image/5.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Teclado chroma</h5>
+                <p class="card-text">Teclado mecanico chroma rezer.</p>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img-top" src="/Image/6.png" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Micro consola</h5>
+                <p class="card-text">Micro consola ,marca generica con juegos varios</p>
+            </div>
+        </div>
+
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="/__/firebase/6.0.1/firebase-app.js"></script>
+
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#reserved-urls -->
+
+        <!-- Initialize Firebase -->
+        <script src="/__/firebase/init.js"></script>
+</body>
+<script>
+    function Mejorar() {
+
+    }
+</script>
+<style>
+    body,
+    html {
+        height: 100%;
+        background-repeat: no-repeat;
+        background: #4CAF50;
+    }
+    /**
+ * Profile image component
+ */
+    
+    .hes {
+        font-size: 3em;
+        text-align: center;
+        color: #fff;
+        font-weight: 100;
+        text-transform: capitalize;
+        letter-spacing: 4px;
+        font-family: 'Roboto', sans-serif;
+    }
+    
+    .profile-header-container {
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+    .profile-header-img {
+        padding: 5px;
+    }
+    
+    .profile-header-img>img.img-circle {
+        display: inline-block;
+        width: 25%;
+        height: auto;
+        border: 5px solid rgb(147, 255, 183);
+    }
+    
+    .profile-header {
+        margin-top: 43px;
+    }
+    /**
+ * Ranking component
+ */
+    
+    .rank-label-container {
+        margin-top: -19px;
+        /* z-index: 1000; */
+        text-align: center;
+    }
+    
+    .label.label-default.rank-label {
+        background-color: #4CAF50;
+        padding: 5px 10px 5px 10px;
+        border-radius: 27px;
+    }
+</style>
