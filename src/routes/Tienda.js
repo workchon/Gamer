@@ -3,6 +3,7 @@ const router = new Router();
 const fs = require('fs');
 const bcrypt = require("bcrypt");
 let mongo = require('../../mongodb.js');
+const jwt = require('jsonwebtoken');
 
 router.get('/', (req, res) => {
     //res.json(Tienda);
@@ -18,10 +19,14 @@ router.post('/', async(req, res) => {
             resolve(hash);
         });
     })
-    let ins = new mongo({ email: Email, Nombre: Nombre, Direccion: Direccion, Telefono: NumTel, clave: hashedPassword, foto: Foto, tipoUsuario: "Normal" });
+    const token = jwt.sign({ email: Email, pass: password }, 'SuperKay');
+    let ins = new mongo({ email: Email, Nombre: Nombre, Direccion: Direccion, Telefono: NumTel, clave: hashedPassword, foto: Foto, tipoUsuario: "Normal", Token: token });
+
     const esp = await ins.save();
     console.log(esp);
-    res.status(200).json({ success: 'Se registro con exito' });
+    res.status(200).json({ success: 'Se registro con exito', Token: token });
 
 });
+
+
 module.exports = router;

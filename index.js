@@ -5,14 +5,7 @@ var bodyParser = require('body-parser');
 const path = require('path');
 const mongoose = require('mongoose');
 var fs = require('fs');
-
-//firebase
-var admin = require('firebase-admin');
-var serviceAccount = require('path/to/serviceAccountKey.json');
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: 'https://<DATABASE_NAME>.firebaseio.com'
-});
+const jwt = require('jsonwebtoken');
 //mongo
 mongoose.connect('mongodb://localhost:27017/Tienda', { useNewUrlParser: true })
     .then(() => {

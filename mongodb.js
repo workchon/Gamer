@@ -6,6 +6,7 @@ let Usuario = new mongoose.Schema({
     Telefono: String,
     clave: String,
     foto: String,
-    tipoUsuario: String
+    tipoUsuario: String,
+    Token: String
 });
 module.exports = mongoose.model('Registro', Usuario);
