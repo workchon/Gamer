@@ -8,6 +8,7 @@
     <script src="JQuery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/8.0.12/jsrsasign-all-min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
 <body>
@@ -18,8 +19,12 @@
                 <form class="login-form">
                     <input id="correo" type="text" placeholder="correo electronico" />
                     <input id="pass" type="password" placeholder="contraseña" />
+                    <button onclick="dologin()">login</button>
+                    <span style="visibility: hidden">&times;</span>
                     <input id="tkn" type="text" placeholder="Token" />
-                    <button onclick="dologin()">login2</button>
+
+
+                    <button onclick="dologin2()">login con Token</button>
                     <p class="message">No estas registrado? <a href="registro.html">Haste una cuenta!</a></p>
                 </form>
             </div>
@@ -36,8 +41,6 @@
 </body>
 <script>
     function dologin() {
-        console.log($("#correo").val());
-        console.log($("#pass").val());
         if (isemail()) {
             if ($("#pass").val().length == 0) {
                 alert("Introduzca una contraseña!");
@@ -49,13 +52,13 @@
                     dataType: 'json',
                     data: {
                         "Email": '' + $("#correo").val() + '',
-                        "password": '' + $("#pass").val() + '',
-                        "Token": $("#tkn").val() + ''
+                        "password": '' + $("#pass").val() + ''
+
                     },
                     success: function(data, textStatus, xhr) {
                         var Jobj = data;
                         if (Jobj["error"] != null) {
-                            alert("Ha ocurrido un error!2");
+                            alert("Ha ocurrido un error!");
                         } else {
 
                             window.location.href = "/perfil.html" + "?usuario=" + Jobj[0].idUsuario;
@@ -68,6 +71,30 @@
 
             }
         }
+    }
+
+    function dologin2() {
+        $.ajax({
+            url: 'http://localhost:4000/api/login/token',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                "Token": '' + $("#tkn").val() + ''
+
+            },
+            success: function(data, textStatus, xhr) {
+                var Jobj = data;
+                if (Jobj["error"] != null) {
+                    alert("Ha ocurrido un error!");
+                } else {
+
+                    window.location.href = "/perfil.html" + "?usuario=" + Jobj[0].idUsuario;
+                }
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                alert('Ha ocurrido un error!1');
+            }
+        });
     }
 
     function isemail() {
