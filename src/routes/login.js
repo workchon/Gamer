@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 let mongo = require('../../mongodb.js');
 
 router.get('/', (req, res) => {
-    res.json(key);
+    //res.json(key);
 });
 
 router.post('/', async(req, res) => {

@@ -5,31 +5,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="JQuery.js"></script>
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css" />
+
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
+
+
+
+
+
     <script>
         $().ready(
-            function() {
-                var urlParams = new URLSearchParams(window.location.search);
-                var id = urlParams.get('usuario');
-                console.log(id);
-                $.ajax({
-                    url: 'http://10.21.6.53:4000/api/Perfiles',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        "idUsuario": '' + id + '',
-                    },
-                    success: function(data, textStatus, xhr) {
-                        var Mobj = data;
-                        console.log(data);
-                        $("#impusuario").html(Mobj["Nombre"]);
-                        $("#impfoto").attr("src", Mobj["foto"]);
-                    },
-                    error: function(xhr, textStatus, errorThrown) {
-                        alert('Ha ocurrido un error!1' + Jobj["error"]);
+            inicio()
+        );
+
+        function inicio() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var id = urlParams.get('usuario');
+            $.ajax({
+                url: 'http://localhost:4000/api/Perfiles',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    "idUsuario": '' + id + '',
+                },
+                success: function(data, textStatus, xhr) {
+                    var Mobj = data;
+                    $("#impusuario").html(Mobj["Nombre"]);
+                    $("#impfoto").attr("src", Mobj["foto"]);
+                    console.log(Mobj["tipoUsuario"]);
+                    switch (Mobj["tipoUsuario"] + '') {
+                        case 'frecuente':
+                            $("#Normal").attr("style", "display: block")
+                            $("#VIP").attr("style", "display: none")
+                            $("#Administrador").attr("style", "display: none")
+                            $("#Frecuente").attr("style", "display:block ")
+                            $("#act").attr("style", "display: none")
+                            break;
+                        case 'VIP':
+                            $("#Normal").attr("style", "display: none")
+                            $("#VIP").attr("style", "display:block")
+                            $("#Administrador").attr("style", "display:none")
+                            $("#Frecuente").attr("style", "display: none")
+                            $("#act").attr("style", "display: none")
+                            break;
+                        case 'Administrador':
+                            $("#Normal").attr("style", "display: none")
+                            $("#VIP").attr("style", "display: none")
+                            $("#Frecuente").attr("style", "display: none")
+                            $("#Administrador").attr("style", "display:block ")
+                            $("#act").attr("style", "display: block")
+                            $("#Mejorar").attr("style", "display: none")
+                            break;
+                        case 'Normal':
+                            $("#Normal").attr("style", "display: block")
+                            $("#VIP").attr("style", "display: none")
+                            $("#Administrador").attr("style", "display: none")
+                            $("#Frecuente").attr("style", "display: none")
+                            $("#act").attr("style", "display: none")
+
+                            break;
                     }
-                });
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    alert('Ha ocurrido un error!');
+                }
             });
+        }
     </script>
 
     <!------ Include the above in your HEAD tag ---------->
@@ -53,12 +97,50 @@
     </h1>
     <br>
     <div id="Mejorar">
-        <input class="form-control" placeholder="Ingrese Codigo de mejora de Cuenta" style="width: 300px">
-        <button type="button" class="btn btn-info" style="margin-left: 20%; margin-top: -2.5%">Actualizar</button>
+        <table>
+            <tr>
+                <td><input class="form-control" id="codigoup" placeholder="Ingrese Codigo de mejora de Cuenta" style="width: 300px"></td>
+                <td><button type="button" class="btn btn-info" onclick="Mejorar()">Actualizar</button></td>
+            </tr>
+        </table>
     </div>
+    <button type="button" class="btn btn-info" onclick="addTable()" id="act">Actualizar Tabla</button>
     <hr style="color: #ffffff; background-color: #a9f8b4">
     <br>
-    <div class="card-columns">
+    <!--Usuarios Normales-->
+    <div class="card-columns" id="Frecuente">
+        <h1 class="hes">Nuevas Ofertas con descuentos del 10% al 40%
+        </h1>
+        <div class="card">
+            <img class="card-img-top" src="https://i11d.3djuegos.com/juegos/2264/_hardware_/fotos/maestras/_hardware_-4747343.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Arma tu Pc Gamer</h5>
+                <p class="card-text">En este momneto Arma tu PC GAMER con 25%</p>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img-top" src="https://http2.mlstatic.com/kit-teclado-y-mouse-gamer-naceb-na-617-pc-rgb-usb-negro-D_NQ_NP_612102-MLM29571734506_032019-F.webp" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Teclado Gamer</h5>
+                <p class="card-text">Teclado GAMER con 40%</p>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img-top" src="https://http2.mlstatic.com/mouse-gamer-eagle-warrior-g16-retroiluminacion-led-gaming-D_NQ_NP_825608-MLM29973411853_042019-F.webp" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Mouse Gamer</h5>
+                <p class="card-text">Mouse GAMER con 20%</p>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img-top" src="https://www.walmart.com.mx/images/product-images/img_large/00071171951880l.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Playstation 4 </h5>
+                <p class="card-text">Con descuento del 10%</p>
+            </div>
+        </div>
+    </div>
+    <div class="card-columns" id="Normal">
         <div class="card">
             <img class="card-img-top" src="/Image/1.jpeg" alt="Card image cap">
             <div class="card-body">
@@ -101,18 +183,121 @@
                 <p class="card-text">Micro consola ,marca generica con juegos varios</p>
             </div>
         </div>
+    </div>
 
-        <!-- The core Firebase JS SDK is always required and must be listed first -->
-        <script src="/__/firebase/6.0.1/firebase-app.js"></script>
 
-        <!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#reserved-urls -->
+    <div class="card-columns" id="VIP">
+        <h1 class="hes">Usuario VIP- Ofertas con el 50% de descuento
+        </h1>
+        <div class="card">
+            <img class="card-img-top" src="https://i11d.3djuegos.com/juegos/2264/_hardware_/fotos/maestras/_hardware_-4747343.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Arma tu Pc Gamer</h5>
+                <p class="card-text">En este momneto Arma tu PC GAMER con 50%</p>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img-top" src="https://http2.mlstatic.com/kit-teclado-y-mouse-gamer-naceb-na-617-pc-rgb-usb-negro-D_NQ_NP_612102-MLM29571734506_032019-F.webp" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Teclado Gamer</h5>
+                <p class="card-text">Teclado GAMER con 50%</p>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img-top" src="https://http2.mlstatic.com/mouse-gamer-eagle-warrior-g16-retroiluminacion-led-gaming-D_NQ_NP_825608-MLM29973411853_042019-F.webp" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Mouse Gamer</h5>
+                <p class="card-text">Mouse GAMER con 50%</p>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img-top" src="https://www.walmart.com.mx/images/product-images/img_large/00071171951880l.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Playstation 4 </h5>
+                <p class="card-text">Con descuento del 50%</p>
+            </div>
+        </div>
+    </div>
 
-        <!-- Initialize Firebase -->
-        <script src="/__/firebase/init.js"></script>
+
+
+    <div id="Administrador">
+        <table id="tbl">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Telefono</th>
+                    <th>Tipo Usuario</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <!-- The core Firebase JS SDK is always required and must be listed first 
+    <script src="/__/firebase/6.0.1/firebase-app.js"></script>
+
+     TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#reserved-urls 
+
+     Initialize Firebase 
+    <script src="/__/firebase/init.js"></script>-->
 </body>
 <script>
     function Mejorar() {
+
+        var urlParams = new URLSearchParams(window.location.search);
+        var id = urlParams.get('usuario');
+        var codigo = $("#codigoup").val();
+        $.ajax({
+            url: 'http://localhost:4000/api/Perfiles/Upgrade',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                "idUsuario": '' + id + '',
+                "Codigo": '' + codigo + ''
+            },
+            success: function(data, textStatus, xhr) {
+                var Mobj = data;
+                if (Mobj["error"] != null) {
+                    alert();
+                } else {
+                    alert("Se a mejorado la cuenta a " + Mobj['Upgrade'])
+                    inicio()
+                }
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                alert('Ha ocurrido un error!');
+            }
+        });
+    }
+
+
+    function addTable() {
+        $.ajax({
+            url: 'http://localhost:4000/api/Perfiles',
+            type: 'GET',
+            dataType: 'json',
+            success: function(data, textStatus, xhr) {
+                var Mobj = data;
+                $('#tbl').DataTable({
+
+                    data: Mobj,
+                    columns: [{
+                        'data': 'Nombre'
+                    }, {
+                        'data': 'email'
+                    }, {
+                        'data': 'Telefono'
+                    }, {
+                        'data': 'tipoUsuario'
+                    }]
+
+                });
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                alert('Ha ocurrido un error!');
+            }
+        });
 
     }
 </script>

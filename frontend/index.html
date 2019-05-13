@@ -25,14 +25,14 @@
             </div>
         </div>
     </form>
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <!-- The core Firebase JS SDK is always required and must be listed first 
     <script src="/__/firebase/6.0.1/firebase-app.js"></script>
 
-    <!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#reserved-urls -->
+    <!-  TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#reserved-urls 
 
-    <!-- Initialize Firebase -->
-    <script src="/__/firebase/init.js"></script>
+    <!- Initialize Firebase 
+    <script src="/__/firebase/init.js"></script>-->
 </body>
 <script>
     function dologin() {
@@ -44,7 +44,7 @@
             } else {
 
                 $.ajax({
-                    url: 'http://10.21.6.53:4000/api/login',
+                    url: 'http://localhost:4000/api/login',
                     type: 'POST',
                     dataType: 'json',
                     data: {
@@ -62,7 +62,7 @@
                         }
                     },
                     error: function(xhr, textStatus, errorThrown) {
-                        alert('Ha ocurrido un error!1' + Jobj["error"]);
+                        alert('Ha ocurrido un error!1');
                     }
                 });
 
