@@ -9,7 +9,6 @@ router.get('/', (req, res) => {
 
 router.post('/', async(req, res) => {
     var { Email, password } = req.body;
-
     if (Email) {
         const esp = await mongo.find({ email: Email });
 
@@ -27,7 +26,7 @@ router.post('/', async(req, res) => {
                     resolve(hash);
                 });
             });
-            if (iguales && '') {
+            if (iguales ) {
                 res.status(200).json([{ idUsuario: hashedid }]);
             } else {
                 res.status(500).json({ error: 'Datos incorrectos.' });
